@@ -129,6 +129,8 @@ func (r *Ring) Get(key string) (string, error) {
 
 // Nodes returns the sorted names of the physical nodes currently on the ring.
 func (r *Ring) Nodes() []string {
+	r.mu.RLock()
+	defer r.mu.RUnlock()
 	out := make([]string, 0, len(r.nodes))
 	for n := range r.nodes {
 		out = append(out, n)
